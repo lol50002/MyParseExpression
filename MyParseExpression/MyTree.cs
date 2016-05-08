@@ -10,13 +10,14 @@ namespace ConsoleApplication1
         string value;
         MyTree left;
         MyTree right;
-        private int findNextOper(string str)
+
+        public static int findNextOper(string str)
         {
             int delit= -1;
             int minus=-1;
             int umnoj=-1;
             Stack<char> lol= new Stack<char>();
-            for (int i = 0; i <= str.Length; i++)
+            for (int i = 0; i < str.Length; i++)
             {
                 if (str[i] == '(')
                 {
@@ -51,7 +52,7 @@ namespace ConsoleApplication1
 
         }
 
-        private int IndexOfFirstBreaket(string str)
+        public static int IndexOfFirstBreaket(string str)
         {
             int result=-1;
             Stack<char> lolipop = new Stack<char>();
@@ -77,7 +78,8 @@ namespace ConsoleApplication1
         {
             this.value = str;
         }
-        private MyTree parsexpression(string str)
+
+        public static MyTree parsexpression(string str)
         {
             MyTree res;
             if (str[0] == '-')
@@ -95,10 +97,78 @@ namespace ConsoleApplication1
             }
             else
                 res = spreadExpression(str, findNextOper(str));
-          }
+            return res;
+         
+        }
+        
+        
+        public static MyTree spreadExpression(string exp,int index)
+        {
+            MyTree res;
+            string leftExpression = exp.Substring(0,index);
+            string rightExpression = exp.Substring(index+1);
+            res = new MyTree(exp[index].ToString());
+            res.left = parsexpression(leftExpression);
+            res.right = parsexpression(rightExpression);
+            return res;
+        }
+
+        public double Calculate()
+        {
+            if (left != null)
+            {
+                switch (value)
+                {
+                    case "+": return left.Calculate() + right.Calculate();
+                    case "-": return left.Calculate() - right.Calculate();
+                    case "/": return left.Calculate() / right.Calculate();
+                    case "*": return left.Calculate() * right.Calculate();
+                }
+            }
+
+            return Convert.ToDouble(value);
 
 
+        }
 
+         public static Dictionary<string,double> peremenny(string str)
+        {
+             Dictionary<string,double> res=new Dictionary<string,double>(); 
+            int strartindex=-1;
+             string temp;
+            for (int i = 0; i < str.Length; i++)
+            {
+
+                if (Char.IsLetter(str[i]))
+                {
+                    if (strartindex==-1)
+                        strartindex =i;
+                    else
+                        continue;
+                }
+                else
+                {
+                    if(strartindex == -1)
+                        continue;
+                    else
+                    {
+                         temp = str.Substring(strartindex,i-strartindex);
+                    strartindex=-1;
+                    if (!res.Keys.Contains(temp))
+                        res.Add(temp,0);
+                    else
+                        continue;
+                    }
+                }
+                    
+              }
+             if (strartindex!=-1)
+                 temp =str.Substring(strartindex);
+           }
+            
+            
+        }
+    
 
 
         }
@@ -107,4 +177,4 @@ namespace ConsoleApplication1
 
 
     }
-}
+
