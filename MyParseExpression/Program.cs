@@ -11,8 +11,10 @@ namespace ConsoleApplication1
         {
             string lol = Console.ReadLine();
             MyTree str = MyTree.parsexpression(lol);
-            Console.WriteLine(str.Calculate());
             Dictionary<string, double> res = MyTree.peremenny(lol);
+            res = MyTree.peremenny(lol);
+            res = MyTree.writeperemenny(res);
+            Console.WriteLine(str.Calculate(res));
         }
     }
 }

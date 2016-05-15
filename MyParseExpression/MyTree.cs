@@ -17,7 +17,8 @@ namespace ConsoleApplication1
             int minus=-1;
             int umnoj=-1;
             Stack<char> lol= new Stack<char>();
-            for (int i = 0; i < str.Length; i++)
+            int i;
+            for (i=str.Length-1;i>=0; i--)
             {
                 if (str[i] == '(')
                 {
@@ -113,25 +114,29 @@ namespace ConsoleApplication1
             return res;
         }
 
-        public double Calculate()
+        public double Calculate(Dictionary<string,double> res)
         {
             if (left != null)
             {
                 switch (value)
                 {
-                    case "+": return left.Calculate() + right.Calculate();
-                    case "-": return left.Calculate() - right.Calculate();
-                    case "/": return left.Calculate() / right.Calculate();
-                    case "*": return left.Calculate() * right.Calculate();
+                    case "+": return left.Calculate(res) + right.Calculate(res);
+                    case "-": return left.Calculate(res) - right.Calculate(res);
+                    case "/": return left.Calculate(res) / right.Calculate(res);
+                    case "*": return left.Calculate(res) * right.Calculate(res);
                 }
             }
-
+            if (Char.IsLetter(value[0]))
+            {
+                return res[value];
+            }
+            else
             return Convert.ToDouble(value);
 
 
         }
 
-         public static Dictionary<string,double> peremenny(string str)
+        public static Dictionary<string,double> peremenny(string str)
         {
              Dictionary<string,double> res=new Dictionary<string,double>(); 
             int strartindex=-1;
@@ -162,19 +167,37 @@ namespace ConsoleApplication1
                 }
                     
               }
-             if (strartindex!=-1)
-                 temp =str.Substring(strartindex);
+            if (strartindex != -1)
+            {
+                temp = str.Substring(strartindex);
+                res.Add(temp, 0);
+            }
+                 return res;
            }
-            
-            
+        public static Dictionary<string,double> writeperemenny(Dictionary<string,double> re)
+        {
+            Dictionary<string, double> res = new Dictionary<string, double>();
+            foreach (string ght in re.Keys)
+            {
+                if (re.Keys.Contains(ght))
+                {
+                    Console.WriteLine("Введите значения переменной"+ght+":");
+                    res.Add(ght, Double.Parse(Console.ReadLine()));
+                } 
+            }
+            return res;
+
         }
+            
+            
+    }
     
 
 
-        }
+}
 
 
 
 
-    }
+ 
 
